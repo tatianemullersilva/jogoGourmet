@@ -6,6 +6,7 @@ import jogoGourmet.entidade.No;
 public class Gerenciar {
 
 	private No pai;
+	private boolean respostaGeral; 
 
 	public void inicio() {
 		pai = new No(null, "massa", null, null);
@@ -22,20 +23,19 @@ public class Gerenciar {
 					"O prato que você pensou é " + noAtual.getCaracteristica() + "?", "Jogo Gourmet",
 					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION;
 			if (opcao) {
-				if (noAtual.getSim().getNome() != null) {
+				if (noAtual.getSim().getCaracteristica() == null) {
 					perguntarNome(noAtual.getSim());
-				} else if (noAtual.getSim().getCaracteristica() != null) {
+				} else {
 					perguntarCaracteristica(noAtual.getSim());
 				}
-
 			} else {
-				if (noAtual.getNao().getCaracteristica() != null && noAtual.getNao().getNome() == null) {
-					perguntarCaracteristica(noAtual.getNao());
+				if (noAtual.getNao() == null) {
+					perguntarNome(noAtual);
 				} else {
-					if (noAtual.getNao().getNome() != null) {
+					if (noAtual.getNao().getCaracteristica() == null) {
 						perguntarNome(noAtual.getNao());
 					} else {
-						perguntarNome(noAtual.getSim());
+						perguntarCaracteristica(noAtual.getNao());
 					}
 				}
 			}
@@ -47,10 +47,10 @@ public class Gerenciar {
 	}
 
 	public void perguntarCaracteristica(No noAtual) {
-		boolean resposta = JOptionPane.showConfirmDialog(null,
+		respostaGeral= JOptionPane.showConfirmDialog(null,
 				"O prato que você pensou é " + noAtual.getCaracteristica() + "?", "Confirm",
 				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
-		if (resposta) {
+		if (respostaGeral && noAtual.getSim() !=null && noAtual.getSim().getNome()!=null) {
 			perguntarNome(noAtual.getSim());
 		} else {
 			if (naoExistePrato(noAtual)) {
@@ -95,36 +95,21 @@ public class Gerenciar {
 			} else if (caracteristica.trim().equals("")) {
 				outroPrato(noAtual);
 			} else {
-				noAtual=proximaRodada(noAtual, prato, caracteristica);
-				iniciarPartida(noAtual);
+				inserirNo(noAtual, prato, caracteristica,respostaGeral);
+				iniciarPartida(pai);
 			}
 		}
 
 	}
 
-	public No proximaRodada(No noAtual, String prato, String caracteristica) {
-		String nomePai = noAtual.getNome();
-		String tipo= noAtual.getCaracteristica();
-		No aux= new No(nomePai,null,null,null);
-		noAtual.setCaracteristica(tipo);
-		noAtual.setNome(null);
-		noAtual.setSim(new No(null, caracteristica, null, null));
-		noAtual.getSim().setSim(new No(prato, null, null, null));
-		noAtual.getSim().setNao(aux);
-		//pai.setNao(noAtual);
-		//buscaPratos(aux,noAtual);
-		//iniciarPartida(noAtual);
-		return noAtual;
-	}
-	
-	public No buscaPratos(No noAtual, No prox) {
-		No aux=noAtual;
-		if(pai==noAtual) {
-			return pai;
-		}else if(noAtual.getSim()==prox) {
-			return noAtual.getSim();
+	public void inserirNo(No noAtual, String prato, String caracteristica,boolean ladoSim) {
+		if(noAtual.getCaracteristica()==null) {
+		noAtual.setCaracteristica(caracteristica);
+		}
+		if(ladoSim) {
+		noAtual.setSim(new No(prato, null, null, null));
 		}else {
-			return noAtual.getNao();
+			noAtual.setNao(new No(prato, null, null, null));
 		}
 	}
 
