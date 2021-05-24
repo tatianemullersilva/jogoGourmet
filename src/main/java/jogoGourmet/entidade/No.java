@@ -2,40 +2,36 @@ package jogoGourmet.entidade;
 
 public class No {
 
-	private String nome;
-	private String caracteristica;
+	private No pai;
 	private No sim;
 	private No nao;
+	private Prato prato;
 
-	public No(String nome, String caracteristica, No sim, No nao) {
+	public No() {
 		super();
-		this.nome = nome;
-		this.caracteristica = caracteristica;
+	}
+
+	public No(No pai, No sim, No nao, Prato prato) {
+		super();
+		this.pai = pai;
 		this.sim = sim;
 		this.nao = nao;
-	}
-	
-
-	public String getNome() {
-		return nome;
+		this.prato = prato;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+
+
+	public No getPai() {
+		return pai;
 	}
 
-	public String getCaracteristica() {
-		return caracteristica;
-	}
-
-	public void setCaracteristica(String caracteristica) {
-		this.caracteristica = caracteristica;
+	public void setPai(No pai) {
+		this.pai = pai;
 	}
 
 	public No getSim() {
 		return sim;
 	}
-	
 
 	public void setSim(No sim) {
 		this.sim = sim;
@@ -48,5 +44,15 @@ public class No {
 	public void setNao(No nao) {
 		this.nao = nao;
 	}
+
+	public Prato getPrato() {
+		return prato;
+	}
+
+	public void setPrato(Prato prato) {
+		this.prato = prato;
+	}
+
+	
 
 }
