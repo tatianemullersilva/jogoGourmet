@@ -52,7 +52,7 @@ public class Iniciar {
 		novoPrato.setNome(
 				JOptionPane.showInputDialog(null, "Qual prato você pensou?", "Desisto", JOptionPane.QUESTION_MESSAGE));
 		novoPrato.setTipo(
-				JOptionPane.showInputDialog(null,novoPrato.getNome() + " não ______ mas " + prato.getNome() + " não.", 
+				JOptionPane.showInputDialog(null,novoPrato.getNome() + " é ______ mas " + prato.getNome() + " não.", 
 						"Complete", JOptionPane.QUESTION_MESSAGE));
 		No noEncontrado = gerenciar.proximoNoQueTemPrato(gerenciar.getnoRaiz(), pratoAtual);
 		gerenciar.setNoAtual(noEncontrado != null ? noEncontrado : gerenciar.noAtual());
